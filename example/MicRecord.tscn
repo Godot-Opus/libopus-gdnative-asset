@@ -1,0 +1,161 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://example/MicRecord.gd" type="Script" id=1]
+[ext_resource path="res://addons/opus/OpusEncoderNode.gdns" type="Script" id=2]
+[ext_resource path="res://addons/opus/OpusDecoderNode.gdns" type="Script" id=3]
+
+[sub_resource type="AudioStreamMicrophone" id=1]
+
+[sub_resource type="AudioStreamSample" id=2]
+format = 1
+stereo = true
+
+[node name="MicRecord" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -240.0
+margin_right = 320.0
+margin_bottom = 240.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 1 )
+autoplay = true
+bus = "Record"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource( 2 )
+
+[node name="RecordButton" type="Button" parent="."]
+margin_left = 120.0
+margin_top = 100.0
+margin_right = 240.0
+margin_bottom = 140.0
+text = "Record"
+
+[node name="PlayButton" type="Button" parent="."]
+margin_left = 300.0
+margin_top = 100.0
+margin_right = 420.0
+margin_bottom = 140.0
+disabled = true
+text = "Play Raw PCM"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Status" type="Label" parent="."]
+margin_left = 120.0
+margin_top = 340.0
+margin_right = 520.0
+margin_bottom = 340.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 249.37
+margin_top = -10.8225
+margin_right = 289.37
+margin_bottom = 3.17749
+text = "libOpus"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CompressionLabel" type="Label" parent="."]
+margin_left = -154.709
+margin_top = 2.05116
+margin_right = -30.7086
+margin_bottom = 16.0512
+text = "Compression Ratio:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CompressionRatio" type="Label" parent="."]
+margin_left = -154.709
+margin_top = 18.0512
+margin_right = -30.7086
+margin_bottom = 32.0512
+text = "0x"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PcmSize" type="Label" parent="."]
+margin_left = -154.709
+margin_top = -29.9488
+margin_right = -52.7086
+margin_bottom = -15.9488
+text = "PCM Size: 0.0kB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpusSize" type="Label" parent="."]
+margin_left = -154.709
+margin_top = -13.9488
+margin_right = -46.7086
+margin_bottom = 0.0511627
+text = "Opus Size: 0.0kB"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EncodeButton" type="Button" parent="."]
+margin_left = 114.0
+margin_top = 247.0
+margin_right = 242.0
+margin_bottom = 287.0
+text = "Encode"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DecodeButton" type="Button" parent="."]
+margin_left = 306.0
+margin_top = 247.0
+margin_right = 434.0
+margin_bottom = 287.0
+text = "Decode/Play"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OpusEncoder" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="OpusDecoder" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 98.3189
+margin_top = 80.6719
+margin_right = 138.319
+margin_bottom = 94.6719
+text = "1."
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 93.9072
+margin_top = 227.52
+margin_right = 133.907
+margin_bottom = 241.52
+text = "2."
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 298.108
+margin_top = 226.89
+margin_right = 338.108
+margin_bottom = 240.89
+text = "3."
+[connection signal="pressed" from="RecordButton" to="." method="_on_RecordButton_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="EncodeButton" to="." method="_on_EncodeButton_pressed"]
+[connection signal="pressed" from="DecodeButton" to="." method="_on_DecodeButton_pressed"]

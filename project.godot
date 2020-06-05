@@ -16,11 +16,15 @@ _global_script_class_icons={
 [application]
 
 config/name="libOpusGodot"
+run/main_scene="res://example/MicRecord.tscn"
 config/icon="res://icon.png"
+
+[audio]
+
+enable_audio_input=true
 
 [rendering]
 
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-environment/default_environment="res://default_env.tres"
