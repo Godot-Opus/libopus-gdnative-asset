@@ -1,0 +1,14 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="opus_"
+reloadable=true
+
+[entry]
+
+Windows.64="res://addons/opus/bin/win64/libgodotopus.dll"
+
+[dependencies]
+
+Windows.64=[ "res://addons/opus/bin/win64/opus.dll" ]
