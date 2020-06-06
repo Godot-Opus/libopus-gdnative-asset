@@ -23,6 +23,10 @@ config/icon="res://icon.png"
 
 enable_audio_input=true
 
+[editor_plugins]
+
+enabled=PoolStringArray( "opus" )
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
