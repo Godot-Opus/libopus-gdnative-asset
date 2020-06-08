@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://example/MicRecord.gd" type="Script" id=1]
 [ext_resource path="res://addons/opus/OpusEncoderNode.gdns" type="Script" id=2]
 [ext_resource path="res://addons/opus/OpusDecoderNode.gdns" type="Script" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
 
 [sub_resource type="AudioStreamMicrophone" id=1]
 
@@ -155,6 +156,16 @@ margin_top = 226.89
 margin_right = 338.108
 margin_bottom = 240.89
 text = "3."
+
+[node name="icon" type="TextureRect" parent="."]
+margin_left = 171.471
+margin_top = -32.6708
+margin_right = 235.471
+margin_bottom = 31.3292
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="RecordButton" to="." method="_on_RecordButton_pressed"]
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="EncodeButton" to="." method="_on_EncodeButton_pressed"]
