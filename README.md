@@ -7,9 +7,22 @@ This is intended to allow for transmittion of auto data over the internet from i
 
 This is early in development, so it currently only supports whole audio encode and decode. This is not intended yet to be used for real-time streaming audio.
 
+## Supported Platforms:
+Currently [libopus-gdnative](https://github.com/Godot-Opus/libopus-gdnative) is compiled for these platforms:
+- Windows x64
+- Arm64-v8a (Android)
+- Linux/X11 x64
+
+There's no reason it can't be compiled for 32bit platforms, I just haven't.
+
+The reason it it's not compiled for OSX or iOS is that I don't have any Apple products with wich to compile it. If any OSX developer would like to help get this compiled for either of those platforms please get in touch!
+
+
 ## Usage
 Once installed, remember to activate the plug in inside of Godot:
-Project -> Project Settings -> Plugins
+
+> Project -> Project Settings -> Plugins
+
 Then change "***Opus Codec***" to Active
 
 This will add two new nodes to Godot:
@@ -20,8 +33,9 @@ This will add two new nodes to Godot:
 
 ## Demos
 ### Trivial
-A demo showing the round trip from PCM -> Opus -> PCM can be seen here:
-The Godot project file in this repository provides a simple demo in `example/` for locally recording audio, encoding it, deecoding it, and playing it back.
+A demo showing the round trip from PCM -> Opus -> PCM can be seen in the Trivial demo included in this project, under `example/`.
+
+It shows how to locally recording audio, encode it, decode it, and play it back.
 
 **How to use:**
 1) Press record button
