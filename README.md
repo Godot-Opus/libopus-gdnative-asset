@@ -1,5 +1,8 @@
 # Godot-Opus
-> libOpus for Godot
+libOpus for Godot
+Ecode and Decode Opus to and from raw PCM data. This results in huge compression ratios, especially for audio data containing mostly speech. Often well over 100x compression.
+
+This is intended to allow for transmittion of auto data over the internet from inside Godot, with an eye toward eventually enabling real-time VOIP.
 
 ## Usage
 Once installed, remember to activate the plug in inside of Godot:
