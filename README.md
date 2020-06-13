@@ -12,10 +12,11 @@ Currently [libopus-gdnative](https://github.com/Godot-Opus/libopus-gdnative) is 
 - Windows x64
 - Arm64-v8a (Android)
 - Linux/X11 x64
+- OSX x64
 
 There's no reason it can't be compiled for 32bit platforms, I just haven't.
 
-The reason it it's not compiled for OSX or iOS is that I don't have any Apple products with wich to compile it. If any OSX developer would like to help get this compiled for either of those platforms please get in touch!
+The reason it's not compiled for iOS is that I don't have any Apple products with wich to compile it. If any OSX developer would like to help get this compiled for that platform please get in touch!
 
 
 ## Usage

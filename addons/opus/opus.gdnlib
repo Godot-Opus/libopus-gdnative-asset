@@ -8,11 +8,13 @@ reloadable=true
 [entry]
 
 Android.arm64-v8a="res://addons/opus/bin/android/arm64-v8a/libgodot-opus.so"
+OSX.64="res://addons/opus/bin/osx/libgodotopus.dylib"
 Windows.64="res://addons/opus/bin/win64/libgodotopus.dll"
 X11.64="res://addons/opus/bin/x11/libgodotopus.so"
 
 [dependencies]
 
 Android.arm64-v8a=[ "res://addons/opus/bin/android/arm64-v8a/libopus.so" ]
+OSX.64=[ "res://addons/opus/bin/osx/libopus.dylib" ]
 Windows.64=[ "res://addons/opus/bin/win64/opus.dll" ]
 X11.64=[ "res://addons/opus/bin/x11/libopus.so" ]
