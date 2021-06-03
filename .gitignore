@@ -31,3 +31,7 @@
 *.out
 *.app
 .import
+
+# Program outputs
+*.wav
+*.wav.import

@@ -15,6 +15,6 @@ X11.64="res://addons/opus/bin/x11/libgodotopus.so"
 [dependencies]
 
 Android.arm64-v8a=[ "res://addons/opus/bin/android/arm64-v8a/libopus.so" ]
-OSX.64=[ "res://addons/opus/bin/osx/libopus.dylib" ]
+OSX.64=[  ]
 Windows.64=[ "res://addons/opus/bin/win64/opus.dll" ]
 X11.64=[ "res://addons/opus/bin/x11/libopus.so" ]

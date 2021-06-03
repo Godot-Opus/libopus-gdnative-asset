@@ -166,6 +166,7 @@ texture = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="pressed" from="RecordButton" to="." method="_on_RecordButton_pressed"]
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="EncodeButton" to="." method="_on_EncodeButton_pressed"]
