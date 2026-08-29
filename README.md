@@ -34,7 +34,7 @@ This will add two new nodes to Godot:
 
 ## Demos
 ### Trivial
-A demo showing the round trip from PCM -> Opus -> PCM can be seen in the Trivial demo included in this project, under `example/`.
+This repository is itself a Godot project: clone it and open it to run the Trivial demo under `example/`, which shows the round trip from PCM -> Opus -> PCM. (The Asset Library download ships only `addons/opus/`, so it does not include the example.)
 
 It shows how to locally recording audio, encode it, decode it, and play it back.
 
