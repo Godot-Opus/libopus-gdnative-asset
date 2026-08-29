@@ -15,7 +15,7 @@ Looking for the Godot 3.x version? It lives on the [`godot3` branch](../../tree/
 - Android arm64
 
 ## Installing
-Extract the addon into your project (no plugin activation needed; GDExtensions load automatically). Requires Godot 4.1 or newer.
+Install through the Godot Asset Library, or extract `addons/opus/` into your project by hand. No plugin activation is needed; GDExtensions load automatically. Requires Godot 4.1 or newer.
 
 Two new node types appear in the Create Node dialog:
 - `OpusEncoderNode`
@@ -47,7 +47,7 @@ Both nodes expose `sample_rate`, `channels`, and (encoder only) `bit_rate` and `
 
 ## Demos
 ### Trivial
-The included example under `example/` shows the whole-clip round trip: record from the mic, encode, decode, play back.
+This repository is itself a Godot project: clone it and open it to run the example under `example/`, which shows the whole-clip round trip: record from the mic, encode, decode, play back. (The Asset Library download ships only `addons/opus/`, so it does not include the example.)
 
 1. Press Record, talk, press Stop
 2. Press Encode
