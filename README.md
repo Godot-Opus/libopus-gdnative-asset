@@ -1,50 +1,60 @@
 # Godot-Opus
-**libOpus for Godot**
+**libOpus for Godot 4**
 
-Ecode and Decode Opus to and from raw PCM data. This results in huge compression ratios, especially for audio data containing mostly speech. Often well over 100x compression.
+Encode and decode Opus to and from raw PCM audio data. This results in huge compression ratios, especially for audio containing mostly speech: often well over 100x.
 
-This is intended to allow for transmittion of auto data over the internet from inside Godot, with an eye toward eventually enabling real-time VOIP.
+This enables transmission of voice audio over the internet from inside Godot, including true real-time streaming VOIP (push-to-talk).
 
-This is early in development, so it currently only supports whole audio encode and decode. This is not intended yet to be used for real-time streaming audio.
+Looking for the Godot 3.x version? It lives on the [`godot3` branch](../../tree/godot3).
 
-## Supported Platforms:
-Currently [libopus-gdnative](https://github.com/Godot-Opus/libopus-gdnative) is compiled for these platforms:
-- Windows x64
-- Arm64-v8a (Android)
-- Linux/X11 x64
-- OSX x64
+## Supported Platforms
+[libopus-gdnative](https://github.com/Godot-Opus/libopus-gdnative) is a GDExtension compiled for:
+- Windows x86_64
+- Linux x86_64
+- macOS universal (x86_64 + arm64)
+- Android arm64
 
-There's no reason it can't be compiled for 32bit platforms, I just haven't.
+## Installing
+Extract the addon into your project (no plugin activation needed; GDExtensions load automatically). Requires Godot 4.1 or newer.
 
-The reason it's not compiled for iOS is that I don't have any Apple products with wich to compile it. If any OSX developer would like to help get this compiled for that platform please get in touch!
-
+Two new node types appear in the Create Node dialog:
+- `OpusEncoderNode`
+- `OpusDecoderNode`
 
 ## Usage
-Once installed, remember to activate the plug in inside of Godot:
 
-> Project -> Project Settings -> Plugins
+### Whole-clip
+Encode a complete recording in one call, decode it in one call:
+```gdscript
+var opusPackets: PackedByteArray = $OpusEncoder.encode(pcmData)
+var pcm: PackedByteArray = $OpusDecoder.decode(opusPackets)
+```
 
-Then change "***Opus Codec***" to Active
+### Streaming (push-to-talk)
+A per-frame API sits between `AudioEffectCapture` and `AudioStreamGenerator` for real-time voice. Sender:
+```gdscript
+encoder.push_audio(capture.get_buffer(capture.get_frames_available()))
+while encoder.has_packet():
+	send_packet.rpc(encoder.pop_packet())
+```
+Receiver, per packet:
+```gdscript
+playback.push_buffer(decoder.decode_frame(packet))
+```
+The project mix rate must match the encoder's `sample_rate` (48kHz by default): set `audio/driver/mix_rate=48000`.
 
-This will add two new nodes to Godot:
-- `OpusEncoder`
-  - `encode(pcmData: PoolByteArray) -> PoolByteArray`
-- `OpusDecoder`
-  - `decode(opusPackets: PoolByteArray) -> PoolByteArray`
+Both nodes expose `sample_rate`, `channels`, and (encoder only) `bit_rate` and `application` properties. See the [libopus-gdnative README](https://github.com/Godot-Opus/libopus-gdnative) for the full API.
 
 ## Demos
 ### Trivial
-A demo showing the round trip from PCM -> Opus -> PCM can be seen in the Trivial demo included in this project, under `example/`.
+The included example under `example/` shows the whole-clip round trip: record from the mic, encode, decode, play back.
 
-It shows how to locally recording audio, encode it, decode it, and play it back.
+1. Press Record, talk, press Stop
+2. Press Encode
+3. Press Decode/Play
 
-**How to use:**
-1) Press record button
-2) Talk or what ever
-3) Press stop
-4) Press Encode
-5) Press Decode/Player
+It also has a live stream loopback toggle that runs your mic through the streaming API (capture, encode, decode, playback) in real time. Use headphones, or the mic will feed back.
 
 ### VOIP
-And a demo showing how to implement a very simple VOIP system using Godot-Opus can be seen here:
-https://github.com/Godot-Opus/godot-voip-opus-demo
+A demo of real VOIP between two machines, in both whole-clip and live streaming modes:
+https://github.com/Godot-Opus/libopus-gdnative-voip-demo

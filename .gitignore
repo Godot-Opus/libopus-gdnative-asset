@@ -35,3 +35,5 @@
 # Program outputs
 *.wav
 *.wav.import
+# Godot 4 cache
+.godot/

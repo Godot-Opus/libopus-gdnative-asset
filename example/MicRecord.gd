@@ -1,26 +1,46 @@
 extends Control
 
 var effect: AudioEffectRecord
-var recording: AudioStreamSample = null
-var opusEncoded: PoolByteArray
+var capture: AudioEffectCapture
+var recording: AudioStreamWAV = null
+var opusEncoded: PackedByteArray
+var streaming = false
 
 
 func _ready():
 	var idx = AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(idx, 0)
-	
+	capture = AudioServer.get_bus_effect(idx, 1)
+
 	update_opus_buttons()
+
+
+# Live loopback: mic -> Opus encode -> Opus decode -> speakers, one packet at a time
+func _on_StreamButton_toggled(on: bool):
+	streaming = on
+	if on:
+		capture.clear_buffer()
+		$OpusEncoder.reset_stream()
+		$StreamOutput.play()
+	else:
+		$StreamOutput.stop()
+		$OpusDecoder.reset_stream()
+
+
+func _process(_delta):
+	if streaming:
+		$OpusEncoder.push_audio(capture.get_buffer(capture.get_frames_available()))
+		while $OpusEncoder.has_packet():
+			var frames = $OpusDecoder.decode_frame($OpusEncoder.pop_packet())
+			var playback = $StreamOutput.get_stream_playback()
+			if playback.can_push_buffer(frames.size()):
+				playback.push_buffer(frames)
 
 
 func _on_RecordButton_pressed():
 	if effect.is_recording_active():
 		recording = effect.get_recording()
-		
-		print(recording)
-		print(recording.format)
-		print(recording.mix_rate)
-		print(recording.stereo)
-		
+
 		$PlayButton.disabled = false
 		effect.set_recording_active(false)
 		$RecordButton.text = "Record"
@@ -30,66 +50,48 @@ func _on_RecordButton_pressed():
 		effect.set_recording_active(true)
 		$RecordButton.text = "Stop"
 		$Status.text = "Recording..."
-	
+
 	update_opus_buttons()
 
 
 func _on_PlayButton_pressed():
-	print(recording)
-	print(recording.format)
-	print(recording.mix_rate)
-	print(recording.stereo)
-	var data = recording.get_data()
-	print(data)
-	print(data.size())
-	
 	$AudioStreamPlayer.stream = recording
 	$AudioStreamPlayer.play()
 
 
 func update_opus_buttons():
 	$EncodeButton.disabled = (recording == null)
-	$DecodeButton.disabled = (opusEncoded.empty())
+	$DecodeButton.disabled = (opusEncoded.is_empty())
 
 
 func _on_EncodeButton_pressed():
-	
 	if recording != null:
-		var data = recording.get_data()
-		print("PCM Data")
 		var pcmData := recording.data
 		var pcmSize = pcmData.size()
-		print(pcmSize)
-		
+
 		opusEncoded = $OpusEncoder.encode(pcmData)
-		
-		print("Opus Data")
 		var opusSize = opusEncoded.size()
-		print(opusSize)
-		
-		$PcmSize.text = "PCM  Size: %1.1f kB" % [pcmSize as float/1024.0]
-		$OpusSize.text = "Opus Size: %1.1f kB" % [opusSize as float/1024.0]
+
+		$PcmSize.text = "PCM  Size: %1.1f kB" % [pcmSize as float / 1024.0]
+		$OpusSize.text = "Opus Size: %1.1f kB" % [opusSize as float / 1024.0]
 		$CompressionRatio.text = "%1.3fx smaller" % [(pcmSize as float / opusSize as float)]
-		
+
 		update_opus_buttons()
 
 
 func _on_DecodeButton_pressed():
-	if not opusEncoded.empty():
+	if not opusEncoded.is_empty():
 		var pcm = $OpusDecoder.decode(opusEncoded)
-		print(pcm)
-		print(pcm.size())
-		
+
 		opusEncoded.resize(0)
-		
-		var sample = AudioStreamSample.new()
-		sample.format = AudioStreamSample.FORMAT_16_BITS
-		sample.mix_rate = 44100
-		sample.stereo = true
+
+		var sample = AudioStreamWAV.new()
+		sample.format = AudioStreamWAV.FORMAT_16_BITS
+		sample.mix_rate = recording.mix_rate
+		sample.stereo = recording.stereo
 		sample.data = pcm
-		sample.save_to_wav("opus_decoded.wav")
-		
+
 		$AudioStreamPlayer.stream = sample
 		$AudioStreamPlayer.play()
-		
+
 		update_opus_buttons()
