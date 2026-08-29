@@ -47,4 +47,4 @@ It shows how to locally recording audio, encode it, decode it, and play it back.
 
 ### VOIP
 And a demo showing how to implement a very simple VOIP system using Godot-Opus can be seen here:
-https://github.com/Godot-Opus/godot-voip-opus-demo
+https://github.com/Godot-Opus/libopus-gdnative-voip-demo
