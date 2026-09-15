@@ -58,3 +58,13 @@ It also has a live stream loopback toggle that runs your mic through the streami
 ### VOIP
 A demo of real VOIP between two machines, in both whole-clip and live streaming modes:
 https://github.com/Godot-Opus/libopus-gdnative-voip-demo
+
+## 🪨 Dark Rock Studios
+
+[**Dark Rock Studios**](https://darkrock.studio/) is all about building **Free and Open Source Software**.
+
+🐛 Found bugs?  
+💡 Have suggestions?  
+📚 Want to help translate?  
+🎮 Interested in our other apps?  
+👉 Join our community of Open Source enthusiasts on [**Discord**](https://discord.gg/49Kj5mMj6d)!
